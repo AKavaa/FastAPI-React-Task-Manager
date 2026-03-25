@@ -61,10 +61,3 @@ Project is currently in development. More features will be added step by step.
 ## 📌 Notes
 
 This project is being built step-by-step to deeply understand how full-stack applications work, rather than just following tutorials.
-
----
-
-## 👨‍💻 Author
-
-Aleksander Kavaleuskiy  
-[GitHub](https://github.com/AKava
