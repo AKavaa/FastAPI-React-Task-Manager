@@ -1,5 +1,3 @@
-# FastAPI-React-Task-Manager
-Full-stack task manager built with FastAPI, React, and TypeScript. Created for learning backend development and API design.
 # 🚀 FastAPI React Task Manager
 
 A full-stack task manager web application built using FastAPI, React, and TypeScript.
