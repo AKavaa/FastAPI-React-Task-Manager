@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -16,13 +17,19 @@ async def root():
 @app.get("/tasks") # retrieve a list with data
 def get_tasks():
     return tasks
+class TaskCreate(BaseModel):
+    title:str
 
+
+
+# create new task and add it to the tasks list
 @app.post("/tasks")
-def create_tasks(title:str):
+def create_tasks(task:TaskCreate):
     new_task = {
         "id": len(tasks) + 1,
-        "title": title,
+        "title": task.title,
         "completed": False
     }
     tasks.append(new_task)
     return new_task
+
