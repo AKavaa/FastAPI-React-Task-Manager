@@ -25,8 +25,9 @@ class TaskCreate(BaseModel):
 # create new task and add it to the tasks list
 @app.post("/tasks")
 def create_tasks(task:TaskCreate):
+    new_id = tasks[-1]["id"] + 1 if tasks else 1
     new_task = {
-        "id": len(tasks) + 1,
+        "id": new_id,
         "title": task.title,
         "completed": False
     }
@@ -51,4 +52,20 @@ def delete_task(task_id: int):
              return {"message": "Task Deleted"}
         
         
-    raise HTTPException(status_code = 404, detail="Task with this ID alreayd deleted" )    
+    raise HTTPException(status_code = 404, detail="Task with this ID already deleted" )    
+
+class TaskUpdate(BaseModel):
+    title: str
+    completed: bool
+
+@app.put("/tasks/{task_id}")
+def update_task(task_id: int, updated_data: TaskUpdate):
+    for task in tasks:
+        if task["id"] == task_id:
+            # Update the fields with the new data from the request body
+            task["title"] = updated_data.title
+            task["completed"] = updated_data.completed
+            return {"message": "Task updated successfully", "task": task}
+    
+   
+    raise HTTPException(status_code=404, detail="Task not found")
