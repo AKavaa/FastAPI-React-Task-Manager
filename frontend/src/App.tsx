@@ -8,6 +8,7 @@ type Task = {
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]) // Task Array will return the tasks
+  const [title, setTitle]: any = useState("")
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -29,9 +30,39 @@ const App = () => {
     fetchTasks();
   }, []);
 
+  const createTask = async () => {
+
+    if (!title) return
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/tasks', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: title
+        })
+      })
+
+      const newTask = await response.json()
+
+
+      setTasks([...tasks, newTask])
+
+
+      setTitle("")
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div>
       <h1>Tasks</h1>
+      <input type="text" placeholder="Enter a task" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <button onClick={createTask}> Add Task</button>
       {tasks.map((task) => (
         <div key={task.id}>
           <p>{task.title}</p>
