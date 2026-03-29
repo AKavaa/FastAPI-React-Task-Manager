@@ -10,6 +10,7 @@ const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]) // Task Array will return the tasks
   const [title, setTitle]: any = useState("")
 
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -58,15 +59,28 @@ const App = () => {
     }
   }
 
+  const deleteTask = async (id: number) => {
+    try {
+      await fetch(`http://127.0.0.1:8000/tasks/${id}`, { method: "DELETE" });
+      setTasks(tasks.filter(task => task.id !== id));
+    } catch (error) {
+      console.error("Delete failed", error);
+    }
+  };
+
+
+
   return (
     <div>
       <h1>Tasks</h1>
       <input type="text" placeholder="Enter a task" value={title} onChange={(e) => setTitle(e.target.value)} />
       <button onClick={createTask}> Add Task</button>
+
       {tasks.map((task) => (
         <div key={task.id}>
           <p>{task.title}</p>
           <p>{task.completed ? "✅ Completed" : "❌ Not Done"} </p>
+          <button onClick={() => deleteTask(task.id)}>Delete Task</button>
         </div>
 
 
